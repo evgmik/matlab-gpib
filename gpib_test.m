@@ -2,7 +2,7 @@
 %
 % get a handle to the oscilloscope from /etc/gpib.conf
 %
-hscope = gpib_function('ibfind','LECROY_WR');
+hscope = gpib_function('ibfind','HP8596E');
 %% Write a message
 %
 % Send the *IDN? message to the scope
