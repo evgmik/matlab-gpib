@@ -7,3 +7,16 @@ hg clone https://code.google.com/p/matlab-gpib/
 This code is distributed under GNU GPL v2 license
 
 
+INSTALLATION.
+
+In Matlab switch to this directory and run
+---
+mex gpib_function.c dispatch.c -lgpib
+---
+Above will compile proper Matlab interface,
+which apparently should happen by itself. At first execution of 'lgpib'
+within Matlab.
+
+
+See 'gpib_test.m' and 'HP8596E_take_data.m' for usage examples.
+
