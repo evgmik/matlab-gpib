@@ -1,4 +1,4 @@
-function [out_str] = query(fname, in_str)
+function [out_str] = query_usbtmc(fname, in_str)
     fname = '/dev/usbtmc0';
 
     string_terminator = 10;
