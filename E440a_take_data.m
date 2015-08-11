@@ -35,7 +35,6 @@ end
 %% Data file parameters
 data_prefix = 'S';
 data_path = 'Z:\qol_comp_data\data\';
-run_number_file = 'Z:\qol_comp_data\data\autofile\runnum.dat';
 
 %% Windows computer parameters
 if ispc 
