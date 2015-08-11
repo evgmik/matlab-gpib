@@ -20,7 +20,7 @@ classdef lgpib
             
         end
         
-        function [status,write_count] = write(obj,message)          
+        function [status,write_count] = fwrite(obj,message)          
      
             [gpib_status,gpib_count] = gpib_function('ibwrt',obj.handle,message);
             
@@ -57,7 +57,7 @@ classdef lgpib
                 l = 8192;
             end
             
-            obj.write(message);
+            obj.fwrite(message);
             
             reply = obj.read(l);
         end
