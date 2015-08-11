@@ -50,7 +50,7 @@ run_number_file = 'Z:\qol_comp_data\data\autofile\runnum.dat';
 %obj1.InputBufferSize  = bufSize;
 %obj1.OutputBufferSize = bufSize;
 
-obj1=lgpib('SAagilent')
+obj1=lgpib('Agilent_E4405b')
 %% Connect to instrument object, obj1.
 %fopen(obj1);
 disp('--------------------')
@@ -66,6 +66,8 @@ disp(horzcat('Connected to ', device_string));
 % _data_ = query(obj1, '_command_');
 disp('Reading traces...');
 %% Read traces
+% switch to ASCII trace transfer
+write(obj1, ':FORMAT:TRACE:DATA ASCII');
 tr1_string = query(obj1, ':TRACE:DATA? TRACE1;');
 tr2_string = query(obj1, ':TRACE:DATA? TRACE2;');
 tr3_string = query(obj1, ':TRACE:DATA? TRACE3;');
