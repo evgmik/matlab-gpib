@@ -169,7 +169,7 @@ spectrum_analyzer.sweep_time=sscanf(sweep_time_string, '%f');
 %% Save data to a file
 if (data_save_flag)
     % Get full path of the file to save
-    save_to_file = qol_get_next_data_file( data_prefix, data_path, run_number_file );
+    save_to_file = qol_get_next_data_file( data_prefix, data_path );
     %
     % Write the data to a file
     %disp(' ');
