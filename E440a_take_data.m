@@ -128,7 +128,8 @@ sweep_time_string = query(obj1, ':SENSE:SWEEP:TIME?');
 
 %% Disconnect from instrument object, obj1.
 if ispc
-fclose(obj1);
+    % windows needs to close the file
+    fclose(obj1);
 end
 
 %disp('Spectrum Analyzer data communincation is done');
