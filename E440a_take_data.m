@@ -12,9 +12,6 @@ function spectrum_analyzer = E4440a_take_data(varargin)
 % 6/20/2013
 
 %% some sane defaults
-
-%% Data file parameters
-
 nVarargs = length(varargin);
 if (nVarargs > 5 )
     error ('wrong number of arguments');
@@ -218,42 +215,20 @@ if (data_plot_flag)
     %
     % Open a window
     figure111 = figure(111);
-    %close(figure111);
-    %figure1 = figure(111);
-    %
-    % Create axes
-%     axes1 = axes('Parent',figure111,'YGrid','on','XGrid','on','FontSize',14);
-%     box(axes1,'on');
-%     hold(axes1,'all');
-    %ylim([-2,12])
-    %ylim([-85,-70])
-    %
     % Create plot
     plot(freq/1e6, tr1, 'Color', [1 0 0], 'DisplayName', 'Trace 1'); hold on
     plot(freq/1e6, tr2, 'Color', [0 0 0], 'DisplayName', 'Trace 2');
     plot(freq/1e6, tr3, 'Color', [0 0 1], 'DisplayName', 'Trace 3'); hold off
     
-%     plot(freq/1e6,tr1,'Color',[1 0 0],'Parent',axes1,'DisplayName','Trace 1')
-%     plot(freq/1e6,tr2,'Color',[0 0 0],'Parent',axes1,'DisplayName','Trace 2')
-%     plot(freq/1e6,tr3,'Color',[0 0 1],'Parent',axes1,'DisplayName','Trace 3')
-%     
-    % Create xlabel
     xlabel('Detection frequency, MHz','FontSize',14);
-    %
-    % Create ylabel
     ylabel('Noise power, dBm','FontSize',14);
-    %
+
     % Show legend
     legend('show');
     grid on;
-    
-    
-   
 end
 
 %drawnow;
-
-
 
 %% Finish up and cleanup
 % Close all opened files
