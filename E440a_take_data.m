@@ -1,17 +1,34 @@
 function spectrum_analyzer = E4440a_take_data(varargin)
 % This script reads data from E440a spectrum analyzer and saves it to a file
+% E4440a_take_data( data_save_flag, data_plot_flag, channels_to_grab_flag, data_save_path, data_file_prefix )
+%  channels_to_grab_flag - is boolean array with true/false for the particular channel
+%  for example channels_to_grab_flag = [ false true true ] will grab only traces 2 and 3
 %
 % Eugeniy E. Mikhailov eemikh@wm.edu
 % Gleb Romanov   gromanov@hellok.org
-% 6/20/2013
-% 7/20/2015 added a choice for saving and plotting
+% 8/12/2015 linux friendly and use of lab file utils
 % 7/27/2015 added a choice to save only specific channels 
+% 7/20/2015 added a choice for saving and plotting
+% 6/20/2013
 
 %% some sane defaults
 
+%% Data file parameters
+
 nVarargs = length(varargin);
-if (nVarargs > 3 )
+if (nVarargs > 5 )
     error ('wrong number of arguments');
+end
+if (nVarargs < 5 )
+    data_file_prefix = 'S';
+else
+    data_file_prefix = varargin{5};
+end
+if (nVarargs < 4 )
+    data_path = 'Z:\qol_comp_data\data\'; 
+    % do not worry it will convert Z: to proper path in linux
+else
+    data_path = varargin{4};
 end
 if (nVarargs < 3 )
     channels_to_grab_flag = [ true, true, true];  % grab all channels
@@ -31,10 +48,6 @@ end
 
 
 
-
-%% Data file parameters
-data_prefix = 'S';
-data_path = 'Z:\qol_comp_data\data\';
 
 %% Windows computer parameters
 if ispc 
@@ -89,7 +102,7 @@ Npoints_string = query(obj1, ':SENSe:SWEep:POINts?');
 Npoints = sscanf(Npoints_string, '%f');
 %Npoints=4695;
 
-tr1 = NaN(Npoints,1);   %  prefill traces with NaN 
+tr1 = NaN(Npoints,1);   % refill traces with NaN 
 tr2 = NaN(Npoints,1);
 tr3 = NaN(Npoints,1);
 
@@ -168,32 +181,32 @@ spectrum_analyzer.sweep_time=sscanf(sweep_time_string, '%f');
 %% Save data to a file
 if (data_save_flag)
     % Get full path of the file to save
-    save_to_file = qol_get_next_data_file( data_prefix, data_path );
-    %
+    save_to_file = qol_get_next_data_file( data_file_prefix, data_path );
+
     % Write the data to a file
     %disp(' ');
     disp(horzcat('Saving data to ',save_to_file));
-    save_to_file_handle = fopen(save_to_file,'wt');
-    fprintf(save_to_file_handle,'%s',horzcat('# ', datestr(clock)));
-    fprintf(save_to_file_handle,'\n');
-    fprintf(save_to_file_handle,'%s',horzcat('# Device:', '   ', device_string));
-    fprintf(save_to_file_handle,'%s',horzcat('# Frequency center, Hz', '   ', freq_center_string));
-    fprintf(save_to_file_handle,'%s',horzcat('# Frequency span, Hz', '   ', freq_span_string));
-    fprintf(save_to_file_handle,'%s',horzcat('# Frequency start, Hz', '   ', freq_start_string));
-    fprintf(save_to_file_handle,'%s',horzcat('# Frequency stop, Hz', '   ', freq_stop_string));
-    fprintf(save_to_file_handle,'%s',horzcat('# Amplitude units      ', amplitude_units_string));
-    fprintf(save_to_file_handle,'%s',horzcat('# Attenuation      ', attenuation_string));
-    fprintf(save_to_file_handle,'%s',horzcat('# Reference level     ', ref_level_string));
-    fprintf(save_to_file_handle,'%s',horzcat('# Log scale    ', log_scale_string));
-    fprintf(save_to_file_handle,'%s',horzcat('# Resolution bandwidth, Hz', '   ', rbw_string));
-    fprintf(save_to_file_handle,'%s',horzcat('# Video bandwidth, Hz', '   ', vbw_string));
-    fprintf(save_to_file_handle,'%s',horzcat('# Sweep time, seconds', '   ', sweep_time_string));
+    header = { ...
+        horzcat(datestr(clock)) ...
+        , horzcat('Device:', '   ', device_string) ...
+        , horzcat('Frequency center, Hz', '   ', freq_center_string) ...
+        , horzcat('Frequency span, Hz', '   ', freq_span_string) ...
+        , horzcat('Frequency start, Hz', '   ', freq_start_string) ...
+        , horzcat('Frequency stop, Hz', '   ', freq_stop_string) ...
+        , horzcat('Amplitude units      ', amplitude_units_string) ...
+        , horzcat('Attenuation      ', attenuation_string) ...
+        , horzcat('Reference level     ', ref_level_string) ...
+        , horzcat('Log scale    ', log_scale_string) ...
+        , horzcat('Resolution bandwidth, Hz', '   ', rbw_string) ...
+        , horzcat('Video bandwidth, Hz', '   ', vbw_string) ...
+        , horzcat('Sweep time, seconds', '   ', sweep_time_string) ...
+        , horzcat('Columns are : freq tr1 tr2 tr3') ...
+    };
     
-    % saving traces data
+    % preparing data in column wise fashion
     data = [freq; tr1; tr2; tr3];
-    fprintf(save_to_file_handle,'%f\t%f\t%f\t%f\n',data);
-    % Close the file
-    fclose(save_to_file_handle);
+    data = data'; % now data is column wise
+    save_table_with_header(save_to_file, data, header, '%');
 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
