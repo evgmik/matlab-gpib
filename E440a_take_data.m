@@ -78,7 +78,7 @@ end
 
 %% Unix specific parameters
 if isunix 
-    obj1=lgpib('Agilent_E4405b')
+    obj1=lgpib('Agilent_E4405b');
 end
 
 %disp('--------------------')
@@ -108,15 +108,18 @@ tr3 = NaN(Npoints,1);
 fwrite(obj1, ':FORMAT:TRACE:DATA ASCII');
 
 if channels_to_grab_flag(1);      
-tr1_string = query(obj1, ':TRACE:DATA? TRACE1;'); % select traces to grab
+    tr1_string = query(obj1, ':TRACE:DATA? TRACE1;'); % select traces to grab
+    tr1 = sscanf(tr1_string, '%f,');
 end 
 
 if channels_to_grab_flag(2);
-tr2_string = query(obj1, ':TRACE:DATA? TRACE2;');
+    tr2_string = query(obj1, ':TRACE:DATA? TRACE2;');
+    tr2 = sscanf(tr2_string, '%f,');
 
 end
 if channels_to_grab_flag(3); 
-tr3_string = query(obj1, ':TRACE:DATA? TRACE3;');
+    tr3_string = query(obj1, ':TRACE:DATA? TRACE3;');
+    tr3 = sscanf(tr3_string, '%f,');
 end 
 
 %disp('Reading Spectrum Analyzer parameters...');
@@ -143,18 +146,6 @@ end
 
 %disp('Spectrum Analyzer data communincation is done');
 
-%% Convert the grabbed traces from strings into vectors 
-if channels_to_grab_flag(1);
-tr1 = sscanf(tr1_string, '%f,');
-end
-
-if channels_to_grab_flag(2);
-tr2 = sscanf(tr2_string, '%f,');
-end 
-
-if channels_to_grab_flag(3);
-tr3 = sscanf(tr3_string, '%f,');
-end 
 
 % Transpose the vectors
 tr1 = tr1';
