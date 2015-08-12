@@ -17,6 +17,9 @@ Above will compile proper Matlab interface,
 which apparently should happen by itself. At first execution of 'lgpib'
 within Matlab.
 
+If you want to run it from network drive move resulting 'gpib_function.mexglx'
+to a computer dependent location.
+
 
 See 'gpib_test.m' and 'HP8596E_take_data.m' for usage examples.
 
