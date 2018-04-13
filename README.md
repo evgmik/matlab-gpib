@@ -4,6 +4,7 @@ This original files were found at
 http://code.google.com/p/matlab-gpib/
 
 and  cloned with the following command
+
 ---
 hg clone https://code.google.com/p/matlab-gpib/
 ---
@@ -14,11 +15,13 @@ This code is distributed under GNU GPL v2 license
 ## INSTALLATION.
 
 In Matlab switch to this directory and run
+
 ---
 mex gpib_function.c dispatch.c -lgpib
 ---
-Above will compile proper Matlab interface,
-which apparently should happen by itself. At first execution of 'lgpib'
+
+Above will compile the proper Matlab interface,
+which apparently should happen by itself at the first execution of 'lgpib'
 within Matlab.
 
 If you want to run it from network drive move resulting 'gpib_function.mexglx'
