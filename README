@@ -1,13 +1,17 @@
+# A binding for Matlab to Linux-GPIB
+
 This original files were found at
 http://code.google.com/p/matlab-gpib/
 
 and  cloned with the following command
+---
 hg clone https://code.google.com/p/matlab-gpib/
+---
 
 This code is distributed under GNU GPL v2 license
 
 
-INSTALLATION.
+## INSTALLATION.
 
 In Matlab switch to this directory and run
 ---
